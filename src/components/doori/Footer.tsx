@@ -15,7 +15,7 @@ export default function Footer() {
               alt="주식회사 두리"
               width={140}
               height={38}
-              className="h-8 w-auto object-contain brightness-0 invert opacity-80 mb-3"
+              className="h-8 w-auto object-contain opacity-85 mb-3"
             />
             <p className="text-blue-400/40 text-xs leading-[1.9]">
               경기도 시흥시 새우개2길 28 (포동) · TEL 031-452-1131 · FAX 031-452-1132<br />

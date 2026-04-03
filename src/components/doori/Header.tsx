@@ -53,7 +53,6 @@ export default function Header() {
             height={44}
             priority
             className="h-9 w-auto object-contain
-              brightness-0 invert          /* 다크 헤더용: 흰색으로 변환 */
               group-hover:opacity-80 transition-opacity duration-300
               sm:h-10"
           />
