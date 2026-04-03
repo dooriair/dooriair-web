@@ -16,7 +16,14 @@ export default function Footer() {
             </div>
             <p className="text-blue-400/40 text-xs leading-[1.9]">
               경기도 시흥시 새우개2길 28 (포동) · TEL 031-452-1131 · FAX 031-452-1132<br />
-              사업자등록번호 706-87-00813 · 대표 임종명, 조진형 (공동대표)
+              사업자등록번호 706-87-00813 ·{" "}
+              <a
+                href="mailto:dooriair@hanmail.net"
+                className="text-sky-400/70 eng font-semibold tracking-wide
+                  hover:text-sky-300 transition-colors"
+              >
+                dooriair@hanmail.net
+              </a>
             </p>
           </div>
           <div className="text-blue-400/30 text-xs eng tracking-wide">

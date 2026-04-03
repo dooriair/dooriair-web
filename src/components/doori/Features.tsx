@@ -29,7 +29,7 @@ export function AboutSection() {
   const info = [
     { label: "회사명",         value: "주식회사 두리 (DOORI Co., Ltd.)" },
     { label: "사업자등록번호",  value: "706-87-00813" },
-    { label: "대표이사",       value: "임종명, 조진형 (공동대표)" },
+    { label: "이메일",         value: "dooriair@hanmail.net", email: true },
     { label: "설립일",         value: "2013년 05월 01일" },
     { label: "소재지",         value: "경기도 시흥시 새우개2길 28 (포동)" },
     { label: "업종",           value: "제조 · 도매 · 서비스" },
@@ -68,7 +68,7 @@ export function AboutSection() {
           </div>
 
           <div className="space-y-2">
-            {info.map(({ label, value }) => (
+            {info.map(({ label, value, email }) => (
               <div
                 key={label}
                 className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-100
@@ -78,7 +78,18 @@ export function AboutSection() {
                 <span className="text-blue-600 text-[11px] font-bold tracking-wide w-28 flex-shrink-0 pt-0.5 eng uppercase">
                   {label}
                 </span>
-                <span className="text-gray-700 text-sm">{value}</span>
+                {email ? (
+                  <a
+                    href={`mailto:${value}`}
+                    className="text-blue-600 text-sm font-semibold eng tracking-wide
+                      hover:text-blue-800 hover:underline underline-offset-2 transition-colors
+                      break-all"
+                  >
+                    {value}
+                  </a>
+                ) : (
+                  <span className="text-gray-700 text-sm">{value}</span>
+                )}
               </div>
             ))}
             <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-sky-50 border border-blue-100">
