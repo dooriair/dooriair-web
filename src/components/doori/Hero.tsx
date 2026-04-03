@@ -38,11 +38,11 @@ export default function Hero() {
           </div>
 
           {/* Slogan */}
-          <h1 className="eng font-black leading-[0.95] tracking-tight mb-7">
-            <span className="block text-4xl sm:text-5xl lg:text-6xl text-white">
+          <h1 className="eng font-black tracking-tight mb-6" style={{ lineHeight: 1.05 }}>
+            <span className="block text-[clamp(28px,6vw,60px)] text-white">
               공조 시스템의
             </span>
-            <span className="block text-4xl sm:text-5xl lg:text-6xl
+            <span className="block text-[clamp(28px,6vw,60px)]
               text-transparent bg-clip-text
               bg-gradient-to-r from-sky-300 via-sky-200 to-blue-300">
               미래를 설계하다
@@ -50,9 +50,9 @@ export default function Hero() {
           </h1>
 
           {/* Sub-headline */}
-          <p className="text-blue-200/50 text-sm sm:text-[15px] leading-[1.8] max-w-lg mb-10">
-            주식회사 두리(DOORIAIR ENGINEERING) ·{" "}
-            히트펌프·직팽식 공기조화기, 항온항습기,<br className="hidden sm:block" />
+          <p className="text-blue-200/50 text-[13px] sm:text-[15px] leading-[1.75] max-w-lg mb-8">
+            주식회사 두리(DOORIAIR ENGINEERING)<br />
+            히트펌프·직팽식 공기조화기, 항온항습기,
             자동제어·인버터 판넬 설계·제작 전문기업
           </p>
 

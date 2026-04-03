@@ -12,48 +12,26 @@ const NAV = [
   { label: "실적",     href: "/projects" },
 ];
 
-/* 로고 이미지 경로 — public/images/logo.png 에 파일을 저장하세요 */
-const LOGO_SRC = "/images/logo.png";
-
 export default function Header() {
-  const [open, setOpen]         = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const pathname                = usePathname();
-
-  useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", h);
-    return () => window.removeEventListener("scroll", h);
-  }, []);
+  const [open, setOpen] = useState(false);
+  const pathname        = usePathname();
 
   useEffect(() => { setOpen(false); }, [pathname]);
 
-  const isHome = pathname === "/";
-
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled || !isHome
-          ? "bg-[#060f2a]/96 backdrop-blur-xl border-b border-sky-900/30 shadow-2xl shadow-blue-950/50"
-          : "bg-transparent"
-      }`}
-    >
-      {(scrolled || !isHome) && (
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-sky-400/40 to-transparent" />
-      )}
+    <header className="fixed inset-x-0 top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
 
-      <div className="max-w-7xl mx-auto px-6 h-[70px] flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 h-[68px] flex items-center justify-between">
 
-        {/* ── Logo ── */}
+        {/* ── Logo (컬러 원본) ── */}
         <Link href="/" aria-label="주식회사 두리 홈" className="group flex-shrink-0">
           <Image
-            src={LOGO_SRC}
+            src="/images/logo.png"
             alt="주식회사 두리 로고"
             width={160}
             height={44}
             priority
             className="h-9 w-auto object-contain
-              brightness-0 invert
               group-hover:opacity-75 transition-opacity duration-300
               sm:h-10"
           />
@@ -65,20 +43,21 @@ export default function Header() {
             <Link
               key={i.href}
               href={i.href}
-              className={`nav-ul text-sm font-medium tracking-wide transition-colors pb-0.5 ${
-                pathname === i.href
-                  ? "text-sky-300"
-                  : "text-blue-100/70 hover:text-white"
-              }`}
+              className={`text-sm font-medium tracking-wide transition-colors pb-0.5
+                border-b-2 ${
+                  pathname === i.href
+                    ? "border-blue-600 text-blue-600"
+                    : "border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-400"
+                }`}
             >
               {i.label}
             </Link>
           ))}
           <Link
             href="/#contact"
-            className="ml-1 px-5 py-2 border border-sky-400/40 text-sky-200 text-sm font-medium
-              hover:bg-sky-400/15 hover:border-sky-300/60 hover:text-sky-100
-              transition-all duration-300 tracking-wide"
+            className="ml-1 px-5 py-2 bg-[#0a1e4a] hover:bg-blue-800
+              text-white text-sm font-medium tracking-wide
+              transition-all duration-300"
           >
             문의하기
           </Link>
@@ -86,7 +65,7 @@ export default function Header() {
 
         {/* ── Mobile toggle ── */}
         <button
-          className="md:hidden text-white p-1 flex-shrink-0"
+          className="md:hidden text-gray-700 p-1 flex-shrink-0"
           onClick={() => setOpen(!open)}
           aria-label="메뉴"
         >
@@ -96,20 +75,20 @@ export default function Header() {
 
       {/* ── Mobile menu ── */}
       {open && (
-        <div className="md:hidden bg-[#060f2a]/98 backdrop-blur-xl border-t border-sky-900/30 px-6 py-5 space-y-1">
+        <div className="md:hidden bg-white border-t border-gray-100 px-6 py-4 space-y-1 shadow-lg">
           {[...NAV, { label: "문의하기", href: "/#contact" }].map(i => (
             <Link
               key={i.href}
               href={i.href}
-              className={`flex w-full items-center justify-between text-left py-3 text-sm
-                border-b border-blue-900/40 last:border-0 transition-colors ${
+              className={`flex w-full items-center justify-between text-left py-3 text-sm font-medium
+                border-b border-gray-100 last:border-0 transition-colors ${
                   pathname === i.href
-                    ? "text-sky-300"
-                    : "text-blue-100/80 hover:text-sky-300"
+                    ? "text-blue-600"
+                    : "text-gray-700 hover:text-blue-600"
                 }`}
             >
               {i.label}
-              <ChevronRight className="w-3.5 h-3.5 text-sky-400/40" />
+              <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
             </Link>
           ))}
         </div>
