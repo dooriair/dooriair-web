@@ -2,14 +2,18 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Wind, Menu, X, ChevronRight } from "lucide-react";
+import { Menu, X, ChevronRight } from "lucide-react";
 
 const NAV = [
   { label: "회사소개", href: "/about" },
   { label: "제품소개", href: "/products" },
   { label: "실적",     href: "/projects" },
 ];
+
+/* 로고 이미지 경로 — public/images/logo.png 에 파일을 저장하세요 */
+const LOGO_SRC = "/images/logo.png";
 
 export default function Header() {
   const [open, setOpen]         = useState(false);
@@ -22,7 +26,6 @@ export default function Header() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  /* 페이지 이동 시 모바일 메뉴 닫기 */
   useEffect(() => { setOpen(false); }, [pathname]);
 
   const isHome = pathname === "/";
@@ -41,26 +44,22 @@ export default function Header() {
 
       <div className="max-w-7xl mx-auto px-6 h-[70px] flex items-center justify-between">
 
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group" aria-label="홈">
-          <div className="relative w-9 h-9 flex items-center justify-center">
-            <span className="absolute inset-0 rounded-full bg-sky-400/10 ring-1 ring-sky-400/25
-              group-hover:scale-110 group-hover:bg-sky-400/20 transition-all duration-500" />
-            <span className="absolute inset-0 rounded-full bg-sky-400/5 scale-150
-              opacity-0 group-hover:opacity-100 group-hover:scale-[2] transition-all duration-700" />
-            <Wind className="w-5 h-5 text-sky-300 relative z-10" strokeWidth={2.5} />
-          </div>
-          <div className="flex flex-col leading-none">
-            <span className="eng text-[9px] text-sky-400/60 tracking-[0.25em] font-semibold uppercase">
-              Dooriair Engineering
-            </span>
-            <span className="text-white font-black text-[17px] eng tracking-tight">
-              주식회사 <span className="text-sky-300">두리</span>
-            </span>
-          </div>
+        {/* ── Logo ── */}
+        <Link href="/" aria-label="주식회사 두리 홈" className="group flex-shrink-0">
+          <Image
+            src={LOGO_SRC}
+            alt="주식회사 두리 로고"
+            width={160}
+            height={44}
+            priority
+            className="h-9 w-auto object-contain
+              brightness-0 invert          /* 다크 헤더용: 흰색으로 변환 */
+              group-hover:opacity-80 transition-opacity duration-300
+              sm:h-10"
+          />
         </Link>
 
-        {/* Desktop nav */}
+        {/* ── Desktop nav ── */}
         <nav className="hidden md:flex items-center gap-8">
           {NAV.map(i => (
             <Link
@@ -85,9 +84,9 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* Mobile toggle */}
+        {/* ── Mobile toggle ── */}
         <button
-          className="md:hidden text-white p-1"
+          className="md:hidden text-white p-1 flex-shrink-0"
           onClick={() => setOpen(!open)}
           aria-label="메뉴"
         >
@@ -95,7 +94,7 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* ── Mobile menu ── */}
       {open && (
         <div className="md:hidden bg-[#060f2a]/98 backdrop-blur-xl border-t border-sky-900/30 px-6 py-5 space-y-1">
           {[...NAV, { label: "문의하기", href: "/#contact" }].map(i => (
