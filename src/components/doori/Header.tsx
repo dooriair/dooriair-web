@@ -53,7 +53,8 @@ export default function Header() {
             height={44}
             priority
             className="h-9 w-auto object-contain
-              group-hover:opacity-80 transition-opacity duration-300
+              brightness-0 invert
+              group-hover:opacity-75 transition-opacity duration-300
               sm:h-10"
           />
         </Link>
