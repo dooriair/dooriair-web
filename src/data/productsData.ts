@@ -3,11 +3,23 @@
    각 제품의 상세 설명을 이 파일에서 직접 수정하면 됩니다.
 
    수정 가이드:
-   - specs       : 사양표 항목 (label / value 쌍)
-   - features    : 기술 특징 및 설계 포인트 (불렛 포인트로 표시)
-   - applications: 주요 적용 분야 (태그로 표시)
-   - expertNote  : 베테랑의 한마디 (한 두 문장, 신뢰감 코너)
+   - specs            : 사양표 항목 (label / value 쌍)
+   - features         : 기술 특징 및 설계 포인트 (불렛 포인트)
+   - designHighlights : 설계 특징 섹션 (title + desc, 상세 제품용)
+   - coreTechnology   : 핵심 기술 섹션 (title + desc, 상세 제품용)
+   - applications     : 주요 적용 분야 (카테고리 + 세부 항목)
+   - expertNote       : 베테랑의 한마디
 ================================================================ */
+
+export interface ApplicationGroup {
+  category: string;
+  items: string[];
+}
+
+export interface DetailSection {
+  title: string;
+  desc: string;
+}
 
 export interface Product {
   cat: string;
@@ -17,16 +29,24 @@ export interface Product {
   clients: string;
   specs: { label: string; value: string }[];
   features: string[];
-  applications: string[];
+  /** 상세 설계 특징 (선택). 있으면 features 대신 이것을 표시 */
+  designHighlights?: DetailSection[];
+  /** 핵심 기술 (선택) */
+  coreTechnology?: DetailSection[];
+  /** applications가 문자열 배열이면 단순 태그, ApplicationGroup 배열이면 카테고리별 표시 */
+  applications: string[] | ApplicationGroup[];
   expertNote: string;
 }
 
 export const PRODUCTS: Product[] = [
+  /* ────────────────────────────────────────────────────────────
+     1. 히트펌프 공기조화기  ← 상세 전문가 버전
+  ──────────────────────────────────────────────────────────── */
   {
     cat: "공기조화기",
     badge: "BEST",
     name: "히트펌프 공기조화기",
-    desc: "냉난방 겸용 · 에너지 효율 극대화 · 병원·연구소 등 정밀 환경 최적",
+    desc: "사계절 에너지 최적화 및 고정밀 온습도 제어 솔루션. 냉난방 겸용 히트펌프 시스템을 공조기에 최적화 설계하여 운전 비용을 획기적으로 절감합니다.",
     clients: "장흥문예회관 · 강동성심병원 · 국립아시아문화전당",
     specs: [
       { label: "방식",      value: "히트펌프 냉난방 겸용" },
@@ -35,17 +55,49 @@ export const PRODUCTS: Product[] = [
       { label: "제어",      value: "PLC 자동제어 연동 가능" },
       { label: "인증",      value: "우수기술기업 인증 품목" },
     ],
-    features: [
-      "냉난방 동시 운전으로 에너지 효율 최대화",
-      "정밀 온도 제어 ±0.5°C 이내 — 병원·연구소 기준 충족",
-      "현장 맞춤 설계·제작 (비표준 용량 전 범위 대응)",
-      "인버터 압축기 적용으로 부분 부하 최적화 운전",
-      "저GWP 냉매(R-32) 적용 가능 — 환경 규제 선제 대응",
+    features: [],   /* designHighlights 사용 시 미표시 */
+    designHighlights: [
+      {
+        title: "Dual Cycle 에너지 최적화",
+        desc: "고효율 인버터 스크롤 압축기 채택으로 부하 변동에 따른 부분 부하 운전 시 에너지 효율(COP)을 극대화합니다.",
+      },
+      {
+        title: "정밀 온습도 제어",
+        desc: "가열/냉각 코일의 PID 비례 제어 로직을 통해 ±0.5°C 이내의 정밀한 실내 환경을 유지합니다.",
+      },
+      {
+        title: "폐열 회수 시스템 (Option)",
+        desc: "배기열 회수용 열교환기(Heat Recovery Wheel 또는 Plate형) 연동 설계로 외기 도입 시 발생하는 열손실을 최소화합니다.",
+      },
+      {
+        title: "컴팩트 모듈러 구조",
+        desc: "현장 반입 조건을 고려한 프레임 분리 및 조립식 구조로 리모델링 현장 설치가 용이합니다.",
+      },
     ],
-    applications: ["병원·의료시설", "연구소·실험실", "군부대·관공서", "문화시설·공연장"],
+    coreTechnology: [
+      {
+        title: "스마트 냉매 제어",
+        desc: "EEV(전자식 팽창밸브) 제어를 통해 증발 및 응축 온도를 실시간 최적화하여 압축기 부하를 경감합니다.",
+      },
+      {
+        title: "고기밀·고단열 패널",
+        desc: "열교 방지(Thermal Bridge Free) 구조의 50mm PU 패널을 적용하여 내부 결로를 원천 차단하고 단열 성능을 강화했습니다.",
+      },
+      {
+        title: "저소음 플러그 팬 (Plug Fan)",
+        desc: "벨트 분진이 없는 다이렉트 구동 방식을 채택하여 청정 환경을 유지하고 유지보수 비용을 절감합니다.",
+      },
+    ],
+    applications: [
+      { category: "의료 · 제약",   items: ["병원 수술실", "격리 병동", "제약사 클린룸 (GMP)"] },
+      { category: "정밀 제조",     items: ["반도체 라인", "2차 전지 생산 공정", "정밀 측정실"] },
+      { category: "특수 시설",     items: ["박물관 수장고", "대형 데이터센터", "연구소 실험실"] },
+    ] as ApplicationGroup[],
     expertNote:
       "히트펌프 공조기는 냉방과 난방을 하나의 기계로 해결하는 게 핵심입니다. 두리는 설계 단계부터 건물 부하를 직접 계산해 과설계 없이 딱 맞는 용량으로 납품합니다.",
   },
+
+  /* ──────────────────────────────────────────────────────────── */
   {
     cat: "공기조화기",
     badge: null,
