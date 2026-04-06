@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronRight } from "lucide-react";
+import ContactModal from "./ContactModal";
 
 const NAV = [
   { label: "회사소개", href: "/about" },
@@ -13,12 +14,15 @@ const NAV = [
 ];
 
 export default function Header() {
-  const [open, setOpen] = useState(false);
-  const pathname        = usePathname();
+  const [open, setOpen]           = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const pathname                  = usePathname();
 
   useEffect(() => { setOpen(false); }, [pathname]);
 
   return (
+    <>
+    <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />
     <header className="fixed inset-x-0 top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
 
       <div className="max-w-7xl mx-auto px-6 h-[68px] flex items-center justify-between">
@@ -53,14 +57,14 @@ export default function Header() {
               {i.label}
             </Link>
           ))}
-          <Link
-            href="/#contact"
+          <button
+            onClick={() => setModalOpen(true)}
             className="ml-1 px-5 py-2 bg-[#0a1e4a] hover:bg-blue-800
               text-white text-sm font-medium tracking-wide
               transition-all duration-300"
           >
             문의하기
-          </Link>
+          </button>
         </nav>
 
         {/* ── Mobile toggle ── */}
@@ -76,12 +80,12 @@ export default function Header() {
       {/* ── Mobile menu ── */}
       {open && (
         <div className="md:hidden bg-white border-t border-gray-100 px-6 py-4 space-y-1 shadow-lg">
-          {[...NAV, { label: "문의하기", href: "/#contact" }].map(i => (
+          {NAV.map(i => (
             <Link
               key={i.href}
               href={i.href}
               className={`flex w-full items-center justify-between text-left py-3 text-sm font-medium
-                border-b border-gray-100 last:border-0 transition-colors ${
+                border-b border-gray-100 transition-colors ${
                   pathname === i.href
                     ? "text-blue-600"
                     : "text-gray-700 hover:text-blue-600"
@@ -91,8 +95,17 @@ export default function Header() {
               <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
             </Link>
           ))}
+          <button
+            onClick={() => { setOpen(false); setModalOpen(true); }}
+            className="flex w-full items-center justify-between text-left py-3 text-sm font-medium
+              text-gray-700 hover:text-blue-600 transition-colors"
+          >
+            문의하기
+            <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
+          </button>
         </div>
       )}
     </header>
+    </>
   );
 }
