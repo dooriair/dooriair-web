@@ -2,15 +2,23 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { X, Phone, Mail, Send, Printer } from "lucide-react";
+import { X, Phone, Mail, Send, Printer, CheckCircle, Loader2 } from "lucide-react";
+import emailjs from "@emailjs/browser";
+
+const EMAILJS_SERVICE  = "service_iwynf7c";
+const EMAILJS_TEMPLATE = "template_d10jwmm";
+const EMAILJS_KEY      = "aoJuYabkTX5E-Q75R";
 
 interface Props {
   open: boolean;
   onClose: () => void;
 }
 
+type Status = "idle" | "sending" | "success" | "error";
+
 export default function ContactModal({ open, onClose }: Props) {
-  const [form, setForm] = useState({ name: "", phone: "", message: "" });
+  const [form, setForm]   = useState({ name: "", phone: "", message: "" });
+  const [status, setStatus] = useState<Status>("idle");
   const nameRef = useRef<HTMLInputElement>(null);
 
   /* 열릴 때 포커스 + body 스크롤 잠금 */
@@ -31,15 +39,35 @@ export default function ContactModal({ open, onClose }: Props) {
     return () => window.removeEventListener("keydown", handler);
   }, [onClose]);
 
+  /* 모달 닫힐 때 상태 초기화 */
+  useEffect(() => {
+    if (!open) {
+      setStatus("idle");
+      setForm({ name: "", phone: "", message: "" });
+    }
+  }, [open]);
+
   if (!open) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`[두리 홈페이지 문의] ${form.name}`);
-    const body = encodeURIComponent(
-      `이름: ${form.name}\n연락처: ${form.phone}\n\n${form.message}`
-    );
-    window.location.href = `mailto:dooriair@hanmail.net?subject=${subject}&body=${body}`;
+    setStatus("sending");
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE,
+        EMAILJS_TEMPLATE,
+        {
+          from_name:    form.name,
+          phone_number: form.phone,
+          message:      form.message,
+        },
+        EMAILJS_KEY
+      );
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -98,9 +126,8 @@ export default function ContactModal({ open, onClose }: Props) {
               <span className="text-[15px] font-extrabold text-gray-800 eng leading-tight">031-452-1131</span>
             </a>
 
-            <div
-              className="flex flex-col items-center gap-2 py-4 px-2
-                bg-slate-50 border border-slate-100 text-center"
+            <div className="flex flex-col items-center gap-2 py-4 px-2
+              bg-slate-50 border border-slate-100 text-center"
             >
               <Printer className="w-5 h-5 text-gray-400" />
               <span className="text-xs font-semibold text-gray-500 tracking-wide">팩스</span>
@@ -129,70 +156,104 @@ export default function ContactModal({ open, onClose }: Props) {
             <span className="flex-1 h-px bg-gray-100" />
           </div>
 
-          {/* ── Form ── */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-            <div className="grid sm:grid-cols-2 gap-4">
+          {/* ── Success state ── */}
+          {status === "success" ? (
+            <div className="flex flex-col items-center gap-4 py-8 text-center">
+              <CheckCircle className="w-14 h-14 text-green-500" />
+              <p className="text-lg font-bold text-gray-800">성공적으로 보내졌습니다!</p>
+              <p className="text-sm text-gray-500 leading-relaxed">
+                영업일 기준 1–2일 내로 답변 드리겠습니다.<br />
+                감사합니다.
+              </p>
+              <button
+                onClick={onClose}
+                className="mt-2 px-8 py-3 bg-[#0a1e4a] hover:bg-blue-800
+                  text-white font-bold text-sm tracking-wide transition-all duration-300"
+              >
+                닫기
+              </button>
+            </div>
+          ) : (
+            /* ── Form ── */
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-bold text-gray-700">
+                    이름 <span className="text-blue-500">*</span>
+                  </label>
+                  <input
+                    ref={nameRef}
+                    type="text"
+                    required
+                    placeholder="홍길동"
+                    value={form.name}
+                    onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
+                    disabled={status === "sending"}
+                    className="h-12 px-4 border border-gray-200 text-base text-gray-800
+                      placeholder:text-gray-300 focus:outline-none focus:border-blue-400
+                      focus:ring-1 focus:ring-blue-100 transition disabled:bg-gray-50"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-bold text-gray-700">연락처</label>
+                  <input
+                    type="tel"
+                    placeholder="010-0000-0000"
+                    value={form.phone}
+                    onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
+                    disabled={status === "sending"}
+                    className="h-12 px-4 border border-gray-200 text-base text-gray-800 eng
+                      placeholder:text-gray-300 focus:outline-none focus:border-blue-400
+                      focus:ring-1 focus:ring-blue-100 transition disabled:bg-gray-50"
+                  />
+                </div>
+              </div>
+
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-gray-700">
-                  이름 <span className="text-blue-500">*</span>
+                  문의 내용 <span className="text-blue-500">*</span>
                 </label>
-                <input
-                  ref={nameRef}
-                  type="text"
+                <textarea
                   required
-                  placeholder="홍길동"
-                  value={form.name}
-                  onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-                  className="h-12 px-4 border border-gray-200 text-base text-gray-800
-                    placeholder:text-gray-300 focus:outline-none focus:border-blue-400
-                    focus:ring-1 focus:ring-blue-100 transition"
+                  rows={4}
+                  placeholder="제품 문의, 기술 상담, 견적 요청 등 자유롭게 작성해 주세요."
+                  value={form.message}
+                  onChange={e => setForm(p => ({ ...p, message: e.target.value }))}
+                  disabled={status === "sending"}
+                  className="px-4 py-3 border border-gray-200 text-base text-gray-800
+                    placeholder:text-gray-300 resize-none focus:outline-none focus:border-blue-400
+                    focus:ring-1 focus:ring-blue-100 transition leading-relaxed disabled:bg-gray-50"
                 />
               </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-bold text-gray-700">연락처</label>
-                <input
-                  type="tel"
-                  placeholder="010-0000-0000"
-                  value={form.phone}
-                  onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
-                  className="h-12 px-4 border border-gray-200 text-base text-gray-800 eng
-                    placeholder:text-gray-300 focus:outline-none focus:border-blue-400
-                    focus:ring-1 focus:ring-blue-100 transition"
-                />
-              </div>
-            </div>
 
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-gray-700">
-                문의 내용 <span className="text-blue-500">*</span>
-              </label>
-              <textarea
-                required
-                rows={4}
-                placeholder="제품 문의, 기술 상담, 견적 요청 등 자유롭게 작성해 주세요."
-                value={form.message}
-                onChange={e => setForm(p => ({ ...p, message: e.target.value }))}
-                className="px-4 py-3 border border-gray-200 text-base text-gray-800
-                  placeholder:text-gray-300 resize-none focus:outline-none focus:border-blue-400
-                  focus:ring-1 focus:ring-blue-100 transition leading-relaxed"
-              />
-            </div>
+              {status === "error" && (
+                <p className="text-sm text-red-500 font-semibold -mt-1">
+                  전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.
+                </p>
+              )}
 
-            <p className="text-xs text-gray-400 leading-relaxed -mt-1">
-              * 전송 버튼을 누르면 이메일 앱이 열립니다. 발송 후 영업일 기준 1–2일 내 답변 드립니다.
-            </p>
-
-            <button
-              type="submit"
-              className="h-14 flex items-center justify-center gap-3
-                bg-[#0a1e4a] hover:bg-blue-800 text-white
-                font-bold text-base tracking-wide
-                shadow-md hover:shadow-lg transition-all duration-300"
-            >
-              <Send className="w-5 h-5" />
-              이메일로 문의 보내기
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="h-14 flex items-center justify-center gap-3
+                  bg-[#0a1e4a] hover:bg-blue-800 disabled:bg-gray-400
+                  text-white font-bold text-base tracking-wide
+                  shadow-md hover:shadow-lg transition-all duration-300"
+              >
+                {status === "sending" ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    보내는 중...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    이메일로 문의 보내기
+                  </>
+                )}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>
