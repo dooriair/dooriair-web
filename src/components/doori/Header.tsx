@@ -11,6 +11,7 @@ const NAV = [
   { label: "회사소개", href: "/about" },
   { label: "제품소개", href: "/products" },
   { label: "실적",     href: "/projects" },
+  { label: "오시는 길", href: "/location" },
 ];
 
 export default function Header() {
