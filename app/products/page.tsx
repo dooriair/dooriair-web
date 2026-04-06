@@ -231,7 +231,7 @@ function ProductModal({
                     transition-all duration-300"
                 >
                   <MessageSquare className="w-5 h-5" />
-                  이 장비 기술 상담하기
+                  {product.ctaLabel ?? "이 장비 기술 상담하기"}
                 </button>
                 <a
                   href="tel:031-452-1131"
