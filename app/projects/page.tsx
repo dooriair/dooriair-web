@@ -1,7 +1,58 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ALL_PROJECTS, Project, SUMMARY, TABS, TabKey } from "@/src/data/projectsData";
+
+/* ── 카운팅 애니메이션 훅 ──────────────────────────────────────────── */
+function useCountUp(target: number, duration = 1600) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setStarted(true); },
+      { threshold: 0.3 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!started) return;
+    let frame = 0;
+    const totalFrames = Math.round(duration / 16);
+    const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+    const tick = () => {
+      frame++;
+      const progress = easeOut(Math.min(frame / totalFrames, 1));
+      setCount(Math.round(progress * target));
+      if (frame < totalFrames) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [started, target, duration]);
+
+  return { count, ref };
+}
+
+/* ── 요약 카운터 카드 ─────────────────────────────────────────────── */
+function SummaryCard({ value, label }: { value: string; label: string }) {
+  const numericTarget = parseInt(value.replace(/\D/g, ""), 10);
+  const suffix = value.replace(/[0-9]/g, "");
+  const { count, ref } = useCountUp(numericTarget, 1800);
+  return (
+    <div ref={ref} className="flex flex-col items-center py-4 px-2">
+      <span className="text-sky-300 text-[24px] sm:text-[30px] font-black eng tabular-nums leading-none">
+        {count}{suffix}
+      </span>
+      <span className="text-blue-300/40 text-[11px] sm:text-[13px] tracking-wide mt-1 text-center leading-tight">
+        {label}
+      </span>
+    </div>
+  );
+}
 
 const PAGE_SIZE = 18;
 
@@ -145,14 +196,7 @@ export default function ProjectsPage() {
       <div className="flex-shrink-0 grid grid-cols-4 divide-x divide-white/[0.07]
         border-y border-white/[0.07] max-w-7xl mx-auto w-full">
         {SUMMARY.map(({ value, label }) => (
-          <div key={label} className="flex flex-col items-center py-4 px-2">
-            <span className="text-sky-300 text-[22px] sm:text-[26px] font-black eng tabular-nums">
-              {value}
-            </span>
-            <span className="text-blue-300/40 text-[12px] sm:text-[13px] tracking-wide mt-0.5 text-center">
-              {label}
-            </span>
-          </div>
+          <SummaryCard key={label} value={value} label={label} />
         ))}
       </div>
 
