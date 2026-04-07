@@ -64,7 +64,7 @@ export const PRODUCTS: Product[] = [
     specs: [
       { label: "방식",      value: "히트펌프 냉난방 겸용" },
       { label: "용량 범위", value: "3RT ~ 100RT (맞춤 제작)" },
-      { label: "냉매",      value: "R-410A / R-32 (저GWP)" },
+      { label: "냉매",      value: "R-410A / R-407C (저GWP)" },
       { label: "제어",      value: "PLC 자동제어 연동 가능" },
       { label: "인증",      value: "우수기술기업 인증 품목" },
     ],
@@ -125,7 +125,7 @@ export const PRODUCTS: Product[] = [
     specs: [
       { label: "방식",      value: "직팽식 (DX) 냉각" },
       { label: "용량 범위", value: "1RT ~ 150RT" },
-      { label: "냉매",      value: "R-410A" },
+      { label: "냉매",      value: "R-410A / R-407C" },
       { label: "풍량",      value: "500CMH ~ 50,000CMH" },
       { label: "외함",      value: "스테인리스·아연도금 선택" },
     ],
