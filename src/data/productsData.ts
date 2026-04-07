@@ -56,6 +56,11 @@ export const PRODUCTS: Product[] = [
     name: "히트펌프 공기조화기",
     desc: "사계절 에너지 최적화 및 고정밀 온습도 제어 솔루션. 냉난방 겸용 히트펌프 시스템을 공조기에 최적화 설계하여 운전 비용을 획기적으로 절감합니다.",
     clients: "장흥문예회관 · 강동성심병원 · 국립아시아문화전당",
+    images: [
+      "/images/products/heatpump_ahu_1.jpg",
+      "/images/products/heatpump_ahu_2.jpg",
+      "/images/products/heatpump_ahu_3.jpg",
+    ],
     specs: [
       { label: "방식",      value: "히트펌프 냉난방 겸용" },
       { label: "용량 범위", value: "3RT ~ 100RT (맞춤 제작)" },
@@ -112,6 +117,11 @@ export const PRODUCTS: Product[] = [
     name: "직팽식 공기조화기",
     desc: "현장 맞춤형 설계와 고효율 냉매 사이클로 구현하는 최적의 공조 솔루션. 별도의 기계실(냉동기, 펌프) 없이 실외기와 직접 연동하여 설치 비용을 절감하고 유지보수 편의성을 극대화합니다.",
     clients: "부산 지하철 · 삼양사 · 대구SSLM",
+    images: [
+      "/images/products/dx_ahu_1.jpg",
+      "/images/products/dx_ahu_2.jpg",
+      "/images/products/dx_ahu_3.jpg",
+    ],
     specs: [
       { label: "방식",      value: "직팽식 (DX) 냉각" },
       { label: "용량 범위", value: "1RT ~ 150RT" },
@@ -162,6 +172,11 @@ export const PRODUCTS: Product[] = [
     name: "항온항습기",
     desc: "365일 무중단 운전과 초정밀 환경 제어를 위한 고신뢰성 시스템. 온도 ±1.0°C, 습도 ±5% 이내의 정밀도를 유지하며, 24시간 중단 없는 안정적인 운전 환경을 제공합니다.",
     clients: "국립아시아문화전당 · 롯데마트 · 롯데푸드",
+    images: [
+      "/images/products/precision_ac_1.jpg",
+      "/images/products/precision_ac_2.jpg",
+      "/images/products/precision_ac_3.jpg",
+    ],
     specs: [
       { label: "온도 정확도", value: "±1.0°C 이내" },
       { label: "습도 정확도", value: "±5% RH 이내" },
@@ -214,6 +229,11 @@ export const PRODUCTS: Product[] = [
     name: "공조 자동제어 판넬",
     desc: "20년 현장 로직이 집약된 고성능 PLC 통합 제어 솔루션. 단순 기동을 넘어 에너지 절감 알고리즘과 정밀 제어 로직을 통해 공조 설비의 효율을 극대화합니다.",
     clients: "현대자동차 남양연구소(45대) · 한국전력공사 · 한화",
+    images: [
+      "/images/products/control_panel_1.jpg",
+      "/images/products/control_panel_2.jpg",
+      "/images/products/control_panel_3.jpg",
+    ],
     specs: [
       { label: "제어 방식",    value: "PLC (LS산전 / Mitsubishi / Siemens)" },
       { label: "통신 프로토콜", value: "Modbus / BACnet / RS-485" },
@@ -264,6 +284,11 @@ export const PRODUCTS: Product[] = [
     name: "인버터 판넬",
     desc: "20년 현장 로직이 집약된 고성능 인버터 통합 제어 솔루션. 모터 속도 무단 제어로 에너지를 30~50% 절감하고, 해운대 LCT 리조트 71대 납품으로 대규모 현장 신뢰성을 검증했습니다.",
     clients: "해운대LCT(71대) · 판교밸리 · KIST · CJ헬스케어",
+    images: [
+      "/images/products/inverter_panel_1.jpg",
+      "/images/products/inverter_panel_2.jpg",
+      "/images/products/inverter_panel_3.jpg",
+    ],
     specs: [
       { label: "인버터",  value: "LS산전 / Mitsubishi / Yaskawa" },
       { label: "용량",    value: "0.4kW ~ 220kW" },
@@ -314,6 +339,11 @@ export const PRODUCTS: Product[] = [
     name: "공조시스템 유지보수",
     desc: "단순 수리를 넘어 공조 시스템 전체를 정밀 진단하고 에너지 효율을 복원하는 프리미엄 유지보수 서비스. 24시간 신속 대응과 20년 현장 노하우로 다운타임을 최소화합니다.",
     clients: "전국 150건+ 실적 (병원·공장·연구소·관공서)",
+    images: [
+      "/images/products/maintenance_1.jpg",
+      "/images/products/maintenance_2.jpg",
+      "/images/products/maintenance_3.jpg",
+    ],
     specs: [
       { label: "점검 주기",  value: "월·분기·연간 맞춤 계약" },
       { label: "자격",       value: "공조냉동기계기사 · 전기기사 보유" },
