@@ -29,16 +29,16 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 h-[68px] flex items-center justify-between">
 
         {/* ── Logo (컬러 원본) ── */}
-        <Link href="/" aria-label="주식회사 두리 홈" className="group flex-shrink-0">
+        <Link href="/" aria-label="주식회사 두리 홈" className="group flex-shrink-0 min-w-0">
           <Image
             src="/images/logo.png"
             alt="주식회사 두리 로고"
             width={160}
             height={44}
             priority
-            className="h-9 w-auto object-contain
+            className="h-7 w-auto max-w-[130px] object-contain
               group-hover:opacity-75 transition-opacity duration-300
-              sm:h-10"
+              sm:h-9 sm:max-w-none"
           />
         </Link>
 
