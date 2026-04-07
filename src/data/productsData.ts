@@ -38,6 +38,12 @@ export interface Product {
   expertNote: string;
   /** 모달 하단 CTA 버튼 텍스트 (기본값: "이 장비 기술 상담하기") */
   ctaLabel?: string;
+  /**
+   * 카드·모달 이미지 슬라이더용 사진 경로 배열
+   * 예: ["/images/products/heatpump-1.jpg", "/images/products/heatpump-2.jpg"]
+   * 비워두면 애니메이션 플레이스홀더가 표시됩니다.
+   */
+  images?: string[];
 }
 
 export const PRODUCTS: Product[] = [

@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ImageIcon, X, ChevronRight, CheckCircle2, Quote, Wrench, Cpu, MessageSquare } from "lucide-react";
+import { X, ChevronRight, CheckCircle2, Quote, Wrench, Cpu, MessageSquare } from "lucide-react";
 import { PRODUCTS, type Product, type ApplicationGroup } from "@/src/data/productsData";
 import ContactModal from "@/src/components/doori/ContactModal";
+import CardSlider from "@/src/components/doori/CardSlider";
 
 /* ── helpers ────────────────────────────────────────────────────────── */
 function isGrouped(apps: Product["applications"]): apps is ApplicationGroup[] {
@@ -88,15 +89,12 @@ function ProductModal({
             {/* LEFT: image + specs + expert note */}
             <div className="lg:w-[42%] flex-shrink-0 border-b lg:border-b-0 lg:border-r border-white/[0.07]">
 
-              {/* Image */}
-              <div className="relative w-full aspect-video bg-[#040c1e]
-                flex flex-col items-center justify-center gap-2">
-                <div className="absolute inset-0 grid-bg opacity-20" />
-                <ImageIcon className="w-10 h-10 text-sky-400/20 relative z-10" />
-                <span className="relative z-10 text-sky-400/20 text-[10px] eng tracking-widest font-semibold">
-                  PRODUCT PHOTO
-                </span>
-              </div>
+              {/* Image slider */}
+              <CardSlider
+                images={product.images}
+                alt={product.name}
+                intervalMs={4000}
+              />
 
               <div className="px-6 py-5 space-y-5">
 
@@ -250,14 +248,13 @@ function ProductModal({
 
           /* ════════════ STANDARD LAYOUT (single-col) ════════════ */
           <>
-            {/* Image */}
-            <div className="relative w-full aspect-video bg-[#040c1e] border-b border-white/[0.07]
-              flex flex-col items-center justify-center gap-2">
-              <div className="absolute inset-0 grid-bg opacity-20" />
-              <ImageIcon className="w-10 h-10 text-sky-400/20 relative z-10" />
-              <span className="relative z-10 text-sky-400/20 text-[10px] eng tracking-widest font-semibold">
-                PRODUCT PHOTO PLACEHOLDER
-              </span>
+            {/* Image slider */}
+            <div className="border-b border-white/[0.07]">
+              <CardSlider
+                images={product.images}
+                alt={product.name}
+                intervalMs={4000}
+              />
             </div>
 
             {/* 베테랑의 한마디 */}
@@ -353,7 +350,15 @@ function ProductModal({
 }
 
 /* ── Product Card ───────────────────────────────────────────────────── */
-function ProductCard({ product, onClick }: { product: Product; onClick: () => void }) {
+function ProductCard({
+  product,
+  onClick,
+  index,
+}: {
+  product: Product;
+  onClick: () => void;
+  index: number;
+}) {
   return (
     <button
       onClick={onClick}
@@ -366,11 +371,14 @@ function ProductCard({ product, onClick }: { product: Product; onClick: () => vo
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-400/50 to-transparent
         opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-      <div className="relative w-full aspect-video bg-[#060f2a] border-b border-white/[0.06]
-        flex flex-col items-center justify-center gap-1.5 overflow-hidden">
-        <div className="absolute inset-0 grid-bg opacity-25" />
-        <ImageIcon className="w-7 h-7 text-sky-400/20 relative z-10" />
-        <span className="relative z-10 text-sky-400/20 text-[9px] eng tracking-widest">PHOTO PLACEHOLDER</span>
+      {/* 카드별 슬라이더: initialDelay로 동시 전환 방지 */}
+      <div className="w-full border-b border-white/[0.06] overflow-hidden pointer-events-none">
+        <CardSlider
+          images={product.images}
+          alt={product.name}
+          intervalMs={3500}
+          initialDelay={index * 600}
+        />
       </div>
 
       <div className="p-5 flex flex-col gap-2 flex-1">
@@ -430,8 +438,8 @@ export default function ProductsPage() {
         <div className="flex-1 overflow-y-auto no-scrollbar">
           <div className="max-w-7xl mx-auto px-6 py-6">
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {PRODUCTS.map(p => (
-                <ProductCard key={p.name} product={p} onClick={() => setSelected(p)} />
+              {PRODUCTS.map((p, i) => (
+                <ProductCard key={p.name} product={p} onClick={() => setSelected(p)} index={i} />
               ))}
             </div>
             <p className="text-blue-400/20 text-[11px] text-center py-6 eng tracking-wide">
