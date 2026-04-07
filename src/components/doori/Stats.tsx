@@ -36,9 +36,9 @@ function useInView(threshold = 0.25) {
 
 /* ── Data ───────────────────────────────────────────────────────────── */
 const STATS = [
-  { target: 85,  suffix: "+", label: "공기조화기·항온항습기", unit: "건" },
+  { target: 85,  suffix: "+", label: "공기조화기 납품",       unit: "건" },
   { target: 122, suffix: "+", label: "자동제어·인버터 판넬",  unit: "건" },
-  { target: 12,  suffix: "",  label: "업력",                  unit: "년" },
+  { target: 20,  suffix: "+", label: "항온항습기 납품",       unit: "건" },
   { target: 150, suffix: "+", label: "유지보수 실적",          unit: "건" },
 ];
 
