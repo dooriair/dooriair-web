@@ -84,6 +84,11 @@ export default function CardSlider({
             className="absolute inset-0 w-full h-full object-cover object-center
               transition-opacity duration-700 ease-in-out"
             style={{ opacity: i === current ? 1 : 0 }}
+            onError={(e) => {
+              // 이미지 로드 실패 시 콘솔에 경로 출력 (디버깅용)
+              console.warn("[CardSlider] 이미지 로드 실패:", src);
+              (e.currentTarget as HTMLImageElement).style.display = "none";
+            }}
           />
         ))
       ) : (
