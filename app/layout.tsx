@@ -21,6 +21,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Barlow+Condensed:wght@400;600;700;800&display=swap"
           rel="stylesheet"
         />
+        <meta name="naver-site-verification" content="9ff81e2a54e96558c9c35dafdaa67a06219bc213" />
       </head>
       <body className="min-h-full flex flex-col">
         <Header />
