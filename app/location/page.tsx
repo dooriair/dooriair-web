@@ -123,14 +123,10 @@ export default function LocationPage() {
               <div className="space-y-1.5">
                 <div className="flex justify-between">
                   <span className="text-white/60 text-[14px]">평일</span>
-                  <span className="text-white font-bold text-[15px]">09:00 – 18:00</span>
+                  <span className="text-white font-bold text-[15px]">오전 08:00 ~ 17:00</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-white/60 text-[14px]">토요일</span>
-                  <span className="text-white font-bold text-[15px]">09:00 – 13:00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-white/60 text-[14px]">일·공휴일</span>
+                  <span className="text-white/60 text-[14px]">토요일/일요일/공휴일</span>
                   <span className="text-white/40 text-[15px]">휴무</span>
                 </div>
               </div>
